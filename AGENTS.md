@@ -32,3 +32,9 @@ This is the **project memory** - what Arc Studio remembers about building this a
 bun install
 bun run dev
 ```
+
+## Netlify Deployment
+
+Netlify builds the frontend with `bun run build` and publishes `dist`, as configured in `netlify.toml`. This file overrides the build command configured in the Netlify UI.
+
+`bun run contracts:build` is a separate Solidity build that requires Foundry (`forge`). It does not produce the frontend site and must not be used as the Netlify site build command.
