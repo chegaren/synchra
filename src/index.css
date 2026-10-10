@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Synchra design tokens ──────────────────────────────────────────────────
+ *
+ *  Accent: #E4F2F2  — the single interactive colour for buttons, actives,
+ *                      hovers, dividers, and subtle highlights.
+ *  Background: deep neutral charcoal/slate — lets the light accent pop.
+ *  Text hierarchy: near-white → muted slate, tabular-nums on data.
+ *
+ * ────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Canvas ── */
+  --bg:              #111418;
+  --bg-gradient:     linear-gradient(160deg, #0e1117 0%, #131720 55%, #16202e 100%);
+
+  /* ── Surfaces (glass cards) ── */
+  --surface:         rgba(228, 242, 242, 0.04);
+  --surface-strong:  rgba(228, 242, 242, 0.08);
+  --surface-muted:   #1a1f28;
+
+  /* ── Text ── */
+  --ink:             #edf4f4;
+  --ink-2:           #b8cece;
+  --muted:           #7a9898;
+  --subtle:          #4e6666;
+
+  /* ── Borders ── */
+  --border:          rgba(228, 242, 242, 0.10);
+  --border-strong:   rgba(228, 242, 242, 0.28);
+
+  /* ── Primary accent: #E4F2F2 ── */
+  --accent:          #E4F2F2;
+  --accent-hover:    #f2fafa;
+  --accent-press:    #c8e6e6;
+  --accent-glow:     rgba(228, 242, 242, 0.12);
+  --accent-subtle:   rgba(228, 242, 242, 0.06);
+
+  /* ── Semantic ── */
+  --success:         #6ee7b7;
+  --danger:          #f87171;
+  --gold:            #fbbf24;
+  --silver:          #cbd5e1;
+  --bronze:          #d97706;
+
+  /* ── Splash ── */
+  --splash-bg:       #0c0f14;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100dvh;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Typography helpers ─────────────────────────────────────────────────── */
+.display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.03em; }
+.mono    { font-family: 'JetBrains Mono', Menlo, monospace; }
+
+/* ─── Glassmorphism ──────────────────────────────────────────────────────── */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+.glass-strong {
+  background: var(--surface-strong);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-strong);
+}
+
+/* ─── Divider using accent ───────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+.divider-accent {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-press), transparent);
+}
+
+/* ─── Button primitives ──────────────────────────────────────────────────── */
+
+/* Primary — solid accent fill, dark text */
+.btn-primary {
+  background: var(--accent);
+  color: #0c1a1a;
+  font-weight: 600;
+  border: none;
+  transition: background 120ms ease, transform 80ms ease, box-shadow 120ms ease;
+}
+.btn-primary:hover  { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-press); transform: scale(0.97); }
+
+/* Ghost — transparent with accent border and text */
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border-strong);
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.btn-ghost:hover  { background: var(--accent-subtle); border-color: var(--accent); }
+.btn-ghost:active { background: var(--accent-glow); }
+
+/* Active nav tab */
+.nav-active {
+  color: var(--accent);
+  background: var(--accent-glow);
+  border: 1px solid rgba(228, 242, 242, 0.18);
+}
+
+/* ─── Subtle star-grain overlay ──────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 18% 28%, rgba(228,242,242,0.07) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 72%, rgba(228,242,242,0.05) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 18%, rgba(228,242,242,0.06) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 82%, rgba(228,242,242,0.04) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root { position: relative; z-index: 1; }
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+/* ─── Focus ring ─────────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ─── ConnectKit theming ─────────────────────────────────────────────────── */
+.ck-overlay { --ck-font-family: 'DM Sans', sans-serif !important; }
+
+/* ─── Sonner toast override ──────────────────────────────────────────────── */
+[data-sonner-toaster] {
+  --normal-bg:     #1a1f28;
+  --normal-border: rgba(228,242,242,0.12);
+  --normal-text:   #edf4f4;
+}
